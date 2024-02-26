@@ -4,7 +4,7 @@ from urllib.request import urlopen
 import regex as re
 
 
-# Herunterladen des Genome Reports von Aufgaben-URL
+# Downloading of Genome Report
 def download_report():
     # Using requests-library, https://pypi.org/project/requests/
     url = "ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME_REPORTS/prokaryotes.txt"
@@ -19,17 +19,21 @@ def get_genome_info(genome_report, regex_list):
         if line.startswith('#'):
             continue
 
-        # Organism-Zeile
         columns = line.split("\t")
-        organism_name = columns[7]
+        if len(columns) >= 15:
+            # Check, if its completely sequenced
+            if columns[15] != 'Complete Genome':
+                continue
 
-        # Umwandlung in Mb
-        genome_length = float(columns[5]) / 1000000
 
-        for regex in regex_list:
-            if re.search(regex, organism_name, re.IGNORECASE):
-                genome_info.append((organism_name, genome_length))
-                break
+            # Extract Organism Name and Genome_length in Mb
+            organism_name = columns[0]
+            genome_length = float(columns[6])
+
+            for regex in regex_list:
+                if re.search(regex, organism_name):
+                    genome_info.append((organism_name, genome_length))
+                    break
     return genome_info
 
 
@@ -46,7 +50,7 @@ def main():
     genome_info = get_genome_info(genome_report, regex_list)
 
     for organism, length in genome_info:
-        print(f"{organism}\t{length:.3f} Mb")
+        print(f"{organism}\t{length}")
 
 
 if __name__ == '__main__':
