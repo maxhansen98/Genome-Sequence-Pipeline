@@ -2,7 +2,11 @@
 import argparse
 import sys
 
-dna2mrna_map = {
+# *
+# Wenn Zeit, TO-DOS
+# fasta & sys je in Funktion schreiben, gleichen Code draußen lassen und ggf. print locus Tag anpassen
+
+DNA2MRNA = {
     "C": "C",
     "G": "G",
     "A": "A",
@@ -10,19 +14,19 @@ dna2mrna_map = {
 }
 
 
-def translate_dna_to_mrna(dna_sequence):
+def translate_dna_to_mrna(dna_sequence: str):
     sequence = ''
     error_count = 0
     for i in range(0, len(dna_sequence)):
         dna_base = dna_sequence[i]
-        if dna_base in dna2mrna_map:
-            mrna_base = dna2mrna_map[dna_base]
+        if dna_base in DNA2MRNA:
+            mrna_base = DNA2MRNA[dna_base]
         else:
             mrna_base = 'X'
             error_count += 1
         sequence += mrna_base
     if error_count > 0:
-        print('\nAttention, contains '+str(error_count)+' invalid bases (X):')
+        print('\nAttention, contains ' + str(error_count) + ' invalid bases (X):')
     return sequence
 
 

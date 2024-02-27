@@ -2,30 +2,34 @@
 import argparse
 import sys
 
-rna2dna_map = {"UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
-               "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S",
-               "UAU": "Y", "UAC": "Y", "UAA": "STOP", "UAG": "STOP",
-               "UGU": "C", "UGC": "C", "UGA": "STOP", "UGG": "W",
-               "CUU": "L", "CUC": "L", "CUA": "L", "CUG": "L",
-               "CCU": "P", "CCC": "P", "CCA": "P", "CCG": "P",
-               "CAU": "H", "CAC": "H", "CAA": "Q", "CAG": "Q",
-               "CGU": "R", "CGC": "R", "CGA": "R", "CGG": "R",
-               "AUU": "I", "AUC": "I", "AUA": "I", "AUG": "M",
-               "ACU": "T", "ACC": "T", "ACA": "T", "ACG": "T",
-               "AAU": "N", "AAC": "N", "AAA": "K", "AAG": "K",
-               "AGU": "S", "AGC": "S", "AGA": "R", "AGG": "R",
-               "GUU": "V", "GUC": "V", "GUA": "V", "GUG": "V",
-               "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
-               "GAU": "D", "GAC": "D", "GAA": "E", "GAG": "E",
-               "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G", }
+# *
+# Wenn Zeit, TO-DOS
+# fasta & sys je in Funktion schreiben, gleichen Code draußen lassen und ggf. print locus Tag anpassen
+
+RNA2DNA = {"UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
+           "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S",
+           "UAU": "Y", "UAC": "Y", "UAA": "STOP", "UAG": "STOP",
+           "UGU": "C", "UGC": "C", "UGA": "STOP", "UGG": "W",
+           "CUU": "L", "CUC": "L", "CUA": "L", "CUG": "L",
+           "CCU": "P", "CCC": "P", "CCA": "P", "CCG": "P",
+           "CAU": "H", "CAC": "H", "CAA": "Q", "CAG": "Q",
+           "CGU": "R", "CGC": "R", "CGA": "R", "CGG": "R",
+           "AUU": "I", "AUC": "I", "AUA": "I", "AUG": "M",
+           "ACU": "T", "ACC": "T", "ACA": "T", "ACG": "T",
+           "AAU": "N", "AAC": "N", "AAA": "K", "AAG": "K",
+           "AGU": "S", "AGC": "S", "AGA": "R", "AGG": "R",
+           "GUU": "V", "GUC": "V", "GUA": "V", "GUG": "V",
+           "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
+           "GAU": "D", "GAC": "D", "GAA": "E", "GAG": "E",
+           "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G", }
 
 
-def translate_mrna_to_aa(mrna_sequence):
+def translate_mrna_to_aa(mrna_sequence: str):
     sequence = ""
     for i in range(0, len(mrna_sequence), 3):
         codon = mrna_sequence[i:i + 3]
-        if codon in rna2dna_map:
-            amino_acid = rna2dna_map[codon]
+        if codon in RNA2DNA:
+            amino_acid = RNA2DNA[codon]
             if amino_acid == "STOP":
                 break
             else:
