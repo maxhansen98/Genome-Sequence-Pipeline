@@ -61,11 +61,11 @@ def main():
         sequence = ""
         locus_tag = ""
         for line in fasta_content:
-            if line.startswith(">"):
-                if sequence != "":
+            if line.startswith('>'):
+                if sequence != '':
                     # Translation and output for each new sequence
                     aa_sequence = translate_mrna_to_aa(sequence)
-                    print(f">{locus_tag}")
+                    print(f'>{locus_tag}')
                     print(aa_sequence)
                     sequence = ""
                 locus_tag = line.strip().lstrip(">")

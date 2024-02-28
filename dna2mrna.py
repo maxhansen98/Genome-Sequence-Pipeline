@@ -7,26 +7,22 @@ import sys
 # fasta & sys je in Funktion schreiben, gleichen Code draußen lassen und ggf. print locus Tag anpassen
 
 DNA2MRNA = {
-    "C": "C",
-    "G": "G",
-    "A": "A",
-    "T": "U"
+    'C': 'C',
+    'G': 'G',
+    'A': 'A',
+    'T': 'U'
 }
 
 
 def translate_dna_to_mrna(dna_sequence: str):
     sequence = ''
-    error_count = 0
     for i in range(0, len(dna_sequence)):
         dna_base = dna_sequence[i]
         if dna_base in DNA2MRNA:
             mrna_base = DNA2MRNA[dna_base]
         else:
             mrna_base = 'X'
-            error_count += 1
         sequence += mrna_base
-    if error_count > 0:
-        print('\nAttention, contains ' + str(error_count) + ' invalid bases (X):')
     return sequence
 
 
@@ -49,21 +45,21 @@ def main():
                     print(sequence)
     else:
         fasta_content = sys.stdin.read().splitlines()
-        sequence = ""
-        locus_tag = ""
+        sequence = ''
+        locus_tag = ''
         for line in fasta_content:
-            if line.startswith(">"):
-                if sequence != "":
+            if line.startswith('>'):
+                if sequence != '':
                     # Translation and output for each new sequence
                     mrna_sequence = translate_dna_to_mrna(sequence)
-                    print(f">{locus_tag}")
+                    print(f'>{locus_tag}')
                     print(mrna_sequence)
-                    sequence = ""
-                locus_tag = line.strip().lstrip(">")
+                    sequence = ''
+                locus_tag = line.strip().lstrip('>')
             else:
                 sequence += line.strip()
         mrna_sequence = translate_dna_to_mrna(sequence)
-        print(f">{locus_tag}")
+        print(f'>{locus_tag}')
         print(mrna_sequence)
 
 

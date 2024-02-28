@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import argparse
+
 MATCHING_BASES = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+FEATURE_TABLE_INDICES = {'locus_tag': 16, 'start': 7, 'end': 8, 'strand': 9, 'seq_name': 6}
 
 
 def fasta_reader(fasta_file):
@@ -15,7 +17,6 @@ def fasta_reader(fasta_file):
                     seqs[current_header] = current_seq
                 current_header = line.split(maxsplit=1)[0].lstrip('>')  # Split at the first space and remove '>'
                 current_seq = ''
-                print(current_header)
             else:
                 current_seq += line
         if current_header:  # Last call before returning
@@ -31,11 +32,11 @@ def extract_orfs(genome_file, feature_table):
         for line in f:
             columns = line.strip().split('\t')
             if columns[0] == 'CDS':
-                locus_tag = columns[16]
-                start = int(columns[7]) - 1
-                end = int(columns[8])
-                strand = columns[9]
-                seq_name = columns[6]
+                locus_tag = columns[FEATURE_TABLE_INDICES['locus_tag']]
+                start = int(columns[FEATURE_TABLE_INDICES['start']]) - 1
+                end = int(columns[FEATURE_TABLE_INDICES['end']])
+                strand = columns[FEATURE_TABLE_INDICES['strand']]
+                seq_name = columns[FEATURE_TABLE_INDICES['seq_name']]
 
                 if seq_name in genome_sequences:
                     seq = genome_sequences[seq_name][start:end]
